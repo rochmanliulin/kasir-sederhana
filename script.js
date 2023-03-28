@@ -8,22 +8,23 @@ const jumlahMinuman = document.getElementById('jumlahMinuman');
 const totalHarga = document.getElementById('totalHarga');
 const bayar = document.getElementById('bayar');
 const kembalian = document.getElementById('kembalian');
+const ppn = document.getElementById("ppn");
 
 // Harga makanan dan minuman
 const hargaMakananList = {
-  'bakso': 15000,
-  'mieAyam': 12000,
-  'nasiPecel': 10000,
-  'sotoAyam': 13000,
-  'bebekGoreng': 20000
+  'croffle': 15000,
+  'kentangGoreng': 12000,
+  'pisangGoreng': 14000,
+  'rotiBakar': 13000,
+  'onionRing': 15000
 };
 
 const hargaMinumanList = {
-  'tehManis': 3000,
-  'arabicaCoffee': 8000,
-  'milk': 5000,
-  'cappucinoCoffee': 10000,
-  'airMineral': 2000
+  'iceBlendCookiesCream': 20000,
+  'arabicaCoffee': 18000,
+  'chocolateMilkshake': 27000,
+  'cappucinoCoffee': 25000,
+  'airMineral': 5000
 };
 
 // Menampilkan harga makanan saat dipilih
@@ -34,7 +35,6 @@ namaMakanan.addEventListener('change', function() {
   } else {
     hargaMakanan.innerHTML = '<h5>Rp. 0</h5>';
   }
-  hitungTotalHarga();
 });
 
 // Menampilkan harga minuman saat dipilih
@@ -45,7 +45,7 @@ namaMinuman.addEventListener('change', function() {
   } else {
     hargaMinuman.innerHTML = '<h5>Rp. 0</h5>';
   }
-  hitungTotalHarga();
+  
 });
 
 // Menghitung total harga
@@ -55,21 +55,24 @@ function hitungTotalHarga() {
   const jumlahMakananValue = parseInt(jumlahMakanan.value);
   const jumlahMinumanValue = parseInt(jumlahMinuman.value);
   const total = (hargaMakananValue * jumlahMakananValue) + (hargaMinumanValue * jumlahMinumanValue);
-  totalHarga.innerHTML = '<span class="text-center" id="totalHarga">Total Harga : Rp. ' + total + '</span>';
-
-  const ppn = total * 0.11;
-  totalHarga.innerHTML += '<span class="text-center d-flex" id="ppn">PPN (11%) : Rp. ' + ppn + '</span>';
+  const totalPPN = total * 0.11;
   
-
-  if(bayar.value != 0) {
-    hitungKembalian(total + ppn);
-  }
+  totalHarga.innerHTML = 'Total Harga : Rp. ' + total;
+  ppn.innerHTML = 'PPN (11%) : Rp. ' + totalPPN; 
+  
+  hitungKembalian(total);
 }
 
 // Menghitung kembalian
 function hitungKembalian(total) {
   const bayarValue = parseInt(bayar.value);
   const kembalianValue = bayarValue - total;
+  
+  if (isNaN(bayarValue)) {
+    kembalian.innerHTML = '<h5> Rp. 0</h5>';
+    return;
+  }
+
   kembalian.innerHTML = '<h5> Rp. ' + kembalianValue + '</h5>';
 }
 
